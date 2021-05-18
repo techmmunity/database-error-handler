@@ -39,14 +39,12 @@
 			"error",
 			{
 				"selector": "interface",
-				"format": ["PascalCase"],
-				"custom": {
-					"regex": "^I[A-Z]",
-					"match": true
-				}
+				"format": ["PascalCase"]
 			}
 		],
 		"no-underscore-dangle": "off",
+		"no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": ["error"],
 		"@typescript-eslint/camelcase": "off",
 		"prettier/prettier": "error",
 		"class-methods-use-this": "off",
@@ -54,7 +52,7 @@
 			"warn",
 			{
 				"newlinesBetween": "always",
-				"groups": ["module", ["parent", "sibling", "index"]],
+				"groups": ["module", ["parent", "sibling", "index"], "/types/"],
 				"alphabetize": { "order": "asc", "ignoreCase": true }
 			}
 		]
