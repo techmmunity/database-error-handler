@@ -5,8 +5,8 @@ export interface Handler {
 	table: string;
 	error: PgErrorEnum;
 	responseCode: HttpCodeEnum | number;
-	columns: Array<string>;
 	makeError: (values: Record<string, string>) => any | Promise<any>;
+	columns?: Array<string>;
 	validate?: (values: Record<string, string>) => boolean;
 }
 

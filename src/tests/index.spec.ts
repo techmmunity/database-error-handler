@@ -242,4 +242,35 @@ describe("DbHandler", () => {
 			errors: ["Fail to save in database", error],
 		});
 	});
+
+	it("should handle error without columns", async () => {
+		const error = {
+			code: PgErrorEnum.NotNullViolation,
+			detail:
+				"Falling row contains (null, 3f53ef03-6746-47ae-b5a3-09cfa052bad8, 2021-05-11 14:56:48.768896, null, APPROVED, ).",
+			table: "user_applications",
+		};
+
+		const handler: Handler = {
+			table: "user_applications",
+			error: PgErrorEnum.NotNullViolation,
+			responseCode: HttpCodeEnum.BadRequest,
+			makeError: () => ({
+				errors: ["ApplicationId is a required field."],
+			}),
+		};
+
+		let result;
+
+		try {
+			await DbHandler([handler])(error);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toEqual(HttpCodeEnum.BadRequest);
+		expect(result.response).toStrictEqual({
+			errors: ["ApplicationId is a required field."],
+		});
+	});
 });
