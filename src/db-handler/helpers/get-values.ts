@@ -26,7 +26,7 @@ const formatKeysAndValues = ([keys, values]: Array<Array<string>>) =>
 export const getValues = (err: any) => {
 	const bruteKeysAndValues = getBruteKeysAndValues(err);
 
-	if (!bruteKeysAndValues) {
+	if (!bruteKeysAndValues || bruteKeysAndValues.length !== 2) {
 		return {} as ErrorKeysAndValues;
 	}
 
