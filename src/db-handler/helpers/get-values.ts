@@ -1,4 +1,4 @@
-import { ErrorKeysAndValues } from "db-handler/types";
+import { ErrorKeysAndValues } from "../types";
 
 const getBruteKeysAndValues = (err: any) =>
 	// Key (application, code)=(UNIQUE_LOGIN_SYSTEM, example) already exists.
