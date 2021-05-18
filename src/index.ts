@@ -1,8 +1,8 @@
-import { DbHandler } from "db-handler";
-import { HttpCodeEnum } from "enums/http-code";
-import { PgErrorEnum } from "enums/pg-error";
+import { DbHandler } from "./db-handler";
+import { HttpCodeEnum } from "./enums/http-code";
+import { PgErrorEnum } from "./enums/pg-error";
 
-import { Handler, DefaultHandler, Handlers } from "db-handler/types";
+import { Handler, DefaultHandler, Handlers } from "./db-handler/types";
 
 export {
 	DbHandler,

@@ -3,7 +3,7 @@ import { isCorrectColumns } from "./is-correct-columns";
 import { isCorrectTable } from "./is-correct-table";
 import { itPassesValidation } from "./passes-validation";
 
-import { Handlers } from "db-handler/types";
+import { Handlers } from "../types";
 
 interface GetHandersParams {
 	err: any;

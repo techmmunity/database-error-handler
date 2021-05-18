@@ -1,5 +1,5 @@
-import { HttpCodeEnum } from "enums/http-code";
-import { PgErrorEnum } from "enums/pg-error";
+import { HttpCodeEnum } from "../enums/http-code";
+import { PgErrorEnum } from "../enums/pg-error";
 
 export interface Handler {
 	table: string;

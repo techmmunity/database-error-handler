@@ -22,6 +22,10 @@ jobs:
         run: |
           yarn build
 
+      - name: Delete tests
+        run: |
+          rm -rf dist/tests
+
       - name: Copy files
         run: |
           cp package.json dist/package.json
