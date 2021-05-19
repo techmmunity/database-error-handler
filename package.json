@@ -1,6 +1,6 @@
 {
 	"name": "@techmmunity/database-error-handler",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"main": "index.js",
 	"types": "index.d.ts",
 	"license": "Apache-2.0",
@@ -24,10 +24,6 @@
 		"postgres",
 		"postgresql"
 	],
-	"peerDependencies": {
-		"@nestjs/common": "^7.6.15",
-		"reflect-metadata": "^0.1.13"
-	},
 	"devDependencies": {
 		"@nestjs/common": "^7.6.15",
 		"@types/jest": "^26.0.5",

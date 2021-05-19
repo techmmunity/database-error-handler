@@ -1,31 +1,30 @@
-import { HttpException } from "@nestjs/common";
-
 import { getDefaultHandler } from "./helpers/get-default-handler";
 import { getHandler } from "./helpers/get-handler";
 import { getValues } from "./helpers/get-values";
 
-import { Handlers } from "./types";
+import { Handlers, Throwler } from "./types";
 
-export const DbHandler = (handlers: Handlers) => async (err: any) => {
-	const fieldValues = getValues(err);
+export const DbHandlerMaker =
+	(Throwler: Throwler) => (handlers: Handlers) => async (err: any) => {
+		const fieldValues = getValues(err);
 
-	const handler = getHandler({ handlers, err, fieldValues });
+		const handler = getHandler({ handlers, err, fieldValues });
 
-	if (handler) {
-		throw new HttpException(
-			await handler.makeError(fieldValues),
-			handler.responseCode,
-		);
-	}
+		if (handler) {
+			throw new Throwler(
+				await handler.makeError(fieldValues),
+				handler.responseCode,
+			);
+		}
 
-	const defaultHandler = getDefaultHandler(handlers);
+		const defaultHandler = getDefaultHandler(handlers);
 
-	if (defaultHandler) {
-		throw new HttpException(
-			await defaultHandler.makeError(err),
-			defaultHandler.responseCode,
-		);
-	}
+		if (defaultHandler) {
+			throw new Throwler(
+				await defaultHandler.makeError(err),
+				defaultHandler.responseCode,
+			);
+		}
 
-	throw new HttpException(err, 500);
-};
+		throw new Throwler(err, 500);
+	};
