@@ -16,10 +16,13 @@ export interface DefaultHandler {
 	makeError: (err: any) => any | Promise<any>;
 }
 
-export type ErrorKeysAndValues = Record<string, string>;
-
 export type MakeErrorContent = (errorMessage: string) => any;
 
 export type Handlers = Array<Handler | DefaultHandler>;
 
 export type Throwler = new (response: any, status: number) => any;
+
+export interface DbHandlerMakerConfig {
+	throwler: Throwler;
+	globalDefaultHandler?: DefaultHandler;
+}

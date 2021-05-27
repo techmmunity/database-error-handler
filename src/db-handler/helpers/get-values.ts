@@ -1,5 +1,3 @@
-import { ErrorKeysAndValues } from "../types";
-
 const getBruteKeysAndValues = (err: any) =>
 	// Key (application, code)=(UNIQUE_LOGIN_SYSTEM, example) already exists.
 	(err.detail as string)
@@ -17,17 +15,17 @@ const sanitizeKeysAndValues = (keysAndValues: RegExpMatchArray) =>
 	); // [ ["application", "code"], ["UNIQUE_LOGIN_SYSTEM", "example"] ]
 
 const formatKeysAndValues = ([keys, values]: Array<Array<string>>) =>
-	keys.reduce((acc, key, index) => {
-		acc[key] = values[index];
-
-		return acc;
-	}, {} as ErrorKeysAndValues);
+	/**
+	 * The first array will be the keys,
+	 * and the second array will be the values
+	 */
+	new Map(keys.map((key, index) => [key, values[index]]));
 
 export const getValues = (err: any) => {
 	const bruteKeysAndValues = getBruteKeysAndValues(err);
 
 	if (!bruteKeysAndValues || bruteKeysAndValues.length !== 2) {
-		return {} as ErrorKeysAndValues;
+		return new Map();
 	}
 
 	const keysAndValuesSanitized = sanitizeKeysAndValues(bruteKeysAndValues);

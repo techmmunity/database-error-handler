@@ -1,14 +1,16 @@
 import { Handler } from "../types";
 
 export const itPassesValidation = async (
-	fieldValues: Record<string, string>,
+	fieldValues: Map<string, string>,
 	handler: Handler,
 ) => {
 	const { validate } = handler;
 
 	if (!validate) return true;
 
-	if (Object.keys(fieldValues).length < 1) return false;
+	if (fieldValues.size < 1) return false;
 
-	return validate(fieldValues);
+	const fieldValuesObj = Object.fromEntries(fieldValues);
+
+	return validate(fieldValuesObj);
 };

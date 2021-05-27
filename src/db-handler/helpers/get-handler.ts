@@ -1,5 +1,5 @@
+import { hasCorrectColumns } from "./has-correct-columns";
 import { isCorrectCode } from "./is-correct-code";
-import { isCorrectColumns } from "./is-correct-columns";
 import { isCorrectTable } from "./is-correct-table";
 import { itPassesValidation } from "./passes-validation";
 
@@ -8,7 +8,7 @@ import { Handlers } from "../types";
 interface GetHandersParams {
 	err: any;
 	handlers: Handlers;
-	fieldValues: Record<string, string>;
+	fieldValues: Map<string, string>;
 }
 
 export const getHandler = ({ handlers, err, fieldValues }: GetHandersParams) =>
@@ -20,7 +20,7 @@ export const getHandler = ({ handlers, err, fieldValues }: GetHandersParams) =>
 		return (
 			isCorrectCode(err, handler) &&
 			isCorrectTable(err, handler) &&
-			isCorrectColumns(err, handler) &&
+			hasCorrectColumns(fieldValues, handler) &&
 			itPassesValidation(fieldValues, handler)
 		);
 	});
