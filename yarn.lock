@@ -549,6 +549,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@techmmunity/easy-check@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@techmmunity/easy-check/-/easy-check-3.2.0.tgz#ef39df09fd0de4c58c428922cf1032b2118872e9"
+  integrity sha512-rMlaqER+emZ8+G40whMZNQqXChDy9nahlRvCsFOyv6Fq1RFlocDGxzllZPVRhDA8dwkLTRN1ZqmOxjVT3ZjR0Q==
+
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.14"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.14.tgz#faaeefc4185ec71c389f4501ee5ec84b170cc402"
