@@ -4,7 +4,9 @@ import { HttpException } from "@nestjs/common";
 import { DbHandlerMaker } from "db-handler";
 import { DefaultHandler, Handler, HttpCodeEnum, PgErrorEnum } from "index";
 
-const DbHandler = DbHandlerMaker(HttpException);
+const DbHandler = DbHandlerMaker({
+	throwler: HttpException,
+});
 
 describe("DbHandler", () => {
 	it("should handle unique violation with a single field", async () => {
