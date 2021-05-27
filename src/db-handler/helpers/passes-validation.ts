@@ -1,6 +1,6 @@
 import { Handler } from "../types";
 
-export const itPassesValidation = async (
+export const itPassesValidation = (
 	fieldValues: Map<string, string>,
 	handler: Handler,
 ) => {

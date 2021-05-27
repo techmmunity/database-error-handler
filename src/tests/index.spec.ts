@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 
 import { HttpException } from "@nestjs/common";
+import { isEven } from "@techmmunity/easy-check";
 import { DbHandlerMaker } from "db-handler";
 import { DefaultHandler, Handler, HttpCodeEnum, PgErrorEnum } from "index";
 
@@ -276,6 +277,49 @@ describe("DbHandler", () => {
 		expect(result.status).toEqual(HttpCodeEnum.BadRequest);
 		expect(result.response).toStrictEqual({
 			errors: ["ApplicationId is a required field."],
+		});
+	});
+
+	it("should get correct handler with validation", async () => {
+		const error = {
+			code: PgErrorEnum.UniqueViolation,
+			detail: "Key (id)=(1) already exists.",
+			table: "users",
+		};
+
+		const handler1: Handler = {
+			error: PgErrorEnum.UniqueViolation,
+			table: "users",
+			responseCode: HttpCodeEnum.Conflict,
+			columns: ["id"],
+			validate: ({ id }) => isEven(parseInt(id, 10)),
+			makeError: () => ({
+				errors: ["ID is an even number"],
+			}),
+		};
+
+		const handler2: Handler = {
+			error: PgErrorEnum.UniqueViolation,
+			table: "users",
+			responseCode: HttpCodeEnum.Conflict,
+			columns: ["id"],
+			validate: ({ id }) => !isEven(parseInt(id, 10)),
+			makeError: () => ({
+				errors: ["ID NOT is an even number"],
+			}),
+		};
+
+		let result;
+
+		try {
+			await DbHandler([handler1, handler2])(error);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toEqual(409);
+		expect(result.response).toStrictEqual({
+			errors: ["ID NOT is an even number"],
 		});
 	});
 });
