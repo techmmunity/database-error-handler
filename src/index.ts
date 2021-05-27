@@ -2,7 +2,12 @@ import { DbHandlerMaker } from "./db-handler";
 import { HttpCodeEnum } from "./enums/http-code";
 import { PgErrorEnum } from "./enums/pg-error";
 
-import { Handler, DefaultHandler, Handlers } from "./db-handler/types";
+import {
+	Handler,
+	DefaultHandler,
+	Handlers,
+	DbHandlerMakerConfig,
+} from "./db-handler/types";
 
 export {
 	DbHandlerMaker,
@@ -11,4 +16,5 @@ export {
 	Handler,
 	DefaultHandler,
 	Handlers,
+	DbHandlerMakerConfig,
 };
