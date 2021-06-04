@@ -1,11 +1,9 @@
-/* eslint-disable camelcase */
-
 import { HttpException } from "@nestjs/common";
 import { isEven } from "@techmmunity/easy-check";
-import { DbHandlerMaker } from "db-handler";
+import { dbHandlerMaker } from "db-handler";
 import { DefaultHandler, Handler, HttpCodeEnum, PgErrorEnum } from "index";
 
-const DbHandler = DbHandlerMaker({
+const dbHandler = dbHandlerMaker({
 	throwler: HttpException,
 });
 
@@ -30,12 +28,12 @@ describe("DbHandler", () => {
 		let result;
 
 		try {
-			await DbHandler([handler])(error);
+			await dbHandler([handler])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(409);
+		expect(result.status).toStrictEqual(409);
 		expect(result.response).toStrictEqual({
 			errors: ['User with id "1" already exists'],
 		});
@@ -54,9 +52,13 @@ describe("DbHandler", () => {
 			table: "terms_and_policies",
 			responseCode: HttpCodeEnum.Conflict,
 			columns: ["user_id", "version", "application_id"],
-			makeError: ({ user_id, version, application_id }) => ({
+			makeError: ({
+				user_id: userId,
+				version,
+				application_id: applicationId,
+			}) => ({
 				errors: [
-					`User with id "${user_id}" already accepted terms and policies version "${version}" for application with id "${application_id}"`,
+					`User with id "${userId}" already accepted terms and policies version "${version}" for application with id "${applicationId}"`,
 				],
 			}),
 		};
@@ -64,12 +66,12 @@ describe("DbHandler", () => {
 		let result;
 
 		try {
-			await DbHandler([handler])(error);
+			await dbHandler([handler])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(409);
+		expect(result.status).toStrictEqual(409);
 		expect(result.response).toStrictEqual({
 			errors: [
 				'User with id "1" already accepted terms and policies version "v1" for application with id "806e3fc0-931b-4f27-9a18-97ea35c959d7"',
@@ -90,20 +92,20 @@ describe("DbHandler", () => {
 			table: "user_applications",
 			responseCode: HttpCodeEnum.NotFound,
 			columns: ["application_id"],
-			makeError: ({ application_id }) => ({
-				errors: [`Application with id "${application_id}" doesn't exists.`],
+			makeError: ({ application_id: applicationId }) => ({
+				errors: [`Application with id "${applicationId}" doesn't exists.`],
 			}),
 		};
 
 		let result;
 
 		try {
-			await DbHandler([handler])(error);
+			await dbHandler([handler])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(404);
+		expect(result.status).toStrictEqual(404);
 		expect(result.response).toStrictEqual({
 			errors: [
 				'Application with id "cd2122a1-e01d-4b5d-9e0f-ce217682084b" doesn\'t exists.',
@@ -124,20 +126,20 @@ describe("DbHandler", () => {
 			table: "user_applications",
 			responseCode: HttpCodeEnum.NotFound,
 			columns: ["user_id"],
-			makeError: ({ user_id }) => ({
-				errors: [`User with id "${user_id}" doesn't exists.`],
+			makeError: ({ user_id: userId }) => ({
+				errors: [`User with id "${userId}" doesn't exists.`],
 			}),
 		};
 
 		let result;
 
 		try {
-			await DbHandler([handler])(error);
+			await dbHandler([handler])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(404);
+		expect(result.status).toStrictEqual(404);
 		expect(result.response).toStrictEqual({
 			errors: [
 				'User with id "d48cf80a-8812-4a95-bae7-f19d383201a0" doesn\'t exists.',
@@ -158,8 +160,8 @@ describe("DbHandler", () => {
 			table: "user_applications",
 			responseCode: HttpCodeEnum.NotFound,
 			columns: ["user_id"],
-			makeError: ({ user_id }) => ({
-				errors: [`User with id "${user_id}" doesn't exists.`],
+			makeError: ({ user_id: userId }) => ({
+				errors: [`User with id "${userId}" doesn't exists.`],
 			}),
 		};
 
@@ -168,20 +170,20 @@ describe("DbHandler", () => {
 			table: "user_applications",
 			responseCode: HttpCodeEnum.Conflict,
 			columns: ["user_id", "application_id"],
-			makeError: ({ application_id }) => ({
-				errors: [`User already has application with id "${application_id}"`],
+			makeError: ({ application_id: applicationId }) => ({
+				errors: [`User already has application with id "${applicationId}"`],
 			}),
 		};
 
 		let result;
 
 		try {
-			await DbHandler([handlerUnique, handlerForeignKey])(error);
+			await dbHandler([handlerUnique, handlerForeignKey])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(409);
+		expect(result.status).toStrictEqual(409);
 		expect(result.response).toStrictEqual({
 			errors: [
 				'User already has application with id "28ed8f70-2a46-4d64-a14e-d068d9d26842"',
@@ -202,20 +204,20 @@ describe("DbHandler", () => {
 			table: "user_applications",
 			responseCode: HttpCodeEnum.NotFound,
 			columns: ["user_id"],
-			makeError: ({ user_id }) => ({
-				errors: [`User with id "${user_id}" doesn't exists.`],
+			makeError: ({ user_id: userId }) => ({
+				errors: [`User with id "${userId}" doesn't exists.`],
 			}),
 		};
 
 		let result;
 
 		try {
-			await DbHandler([handlerForeignKey])(error);
+			await dbHandler([handlerForeignKey])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(500);
+		expect(result.status).toStrictEqual(500);
 		expect(result.response).toStrictEqual(error);
 	});
 
@@ -238,12 +240,12 @@ describe("DbHandler", () => {
 		let result;
 
 		try {
-			await DbHandler([handler])(error);
+			await dbHandler([handler])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(500);
+		expect(result.status).toStrictEqual(500);
 		expect(result.response).toStrictEqual({
 			errors: ["Fail to save in database", error],
 		});
@@ -269,12 +271,12 @@ describe("DbHandler", () => {
 		let result;
 
 		try {
-			await DbHandler([handler])(error);
+			await dbHandler([handler])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(HttpCodeEnum.BadRequest);
+		expect(result.status).toStrictEqual(HttpCodeEnum.BadRequest);
 		expect(result.response).toStrictEqual({
 			errors: ["ApplicationId is a required field."],
 		});
@@ -312,12 +314,12 @@ describe("DbHandler", () => {
 		let result;
 
 		try {
-			await DbHandler([handler1, handler2])(error);
+			await dbHandler([handler1, handler2])(error);
 		} catch (e) {
 			result = e;
 		}
 
-		expect(result.status).toEqual(409);
+		expect(result.status).toStrictEqual(409);
 		expect(result.response).toStrictEqual({
 			errors: ["ID NOT is an even number"],
 		});

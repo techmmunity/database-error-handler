@@ -1,4 +1,4 @@
-import { DbHandlerMaker } from "./db-handler";
+import { dbHandlerMaker } from "./db-handler";
 import { HttpCodeEnum } from "./enums/http-code";
 import { PgErrorEnum } from "./enums/pg-error";
 
@@ -10,7 +10,7 @@ import {
 } from "./db-handler/types";
 
 export {
-	DbHandlerMaker,
+	dbHandlerMaker as DbHandlerMaker,
 	PgErrorEnum,
 	HttpCodeEnum,
 	Handler,

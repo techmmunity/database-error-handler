@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 export enum HttpCodeEnum {
 	BadRequest = 400,
 	Unauthorized = 401,
