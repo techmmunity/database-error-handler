@@ -4,8 +4,8 @@ import { getValues } from "./helpers/get-values";
 
 import { Handlers, DbHandlerMakerConfig } from "./types";
 
-export const DbHandlerMaker =
-	({ throwler: Throwler, globalDefaultHandler }: DbHandlerMakerConfig) =>
+export const dbHandlerMaker =
+	({ throwler, globalDefaultHandler }: DbHandlerMakerConfig) =>
 	(handlers: Handlers) =>
 	async (err: any) => {
 		const fieldValues = getValues(err);
@@ -18,7 +18,7 @@ export const DbHandlerMaker =
 				string
 			>;
 
-			throw new Throwler(
+			throw new throwler(
 				await handler.makeError(fieldValuesObj),
 				handler.responseCode,
 			);
@@ -27,11 +27,11 @@ export const DbHandlerMaker =
 		const defaultHandler = getDefaultHandler(handlers) || globalDefaultHandler;
 
 		if (defaultHandler) {
-			throw new Throwler(
+			throw new throwler(
 				await defaultHandler.makeError(err),
 				defaultHandler.responseCode,
 			);
 		}
 
-		throw new Throwler(err, 500);
+		throw new throwler(err, 500);
 	};
