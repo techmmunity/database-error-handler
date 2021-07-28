@@ -25,7 +25,7 @@
 		"postgresql"
 	],
 	"devDependencies": {
-		"@nestjs/common": "^7.6.15",
+		"@nestjs/common": "^8.0.5",
 		"@techmmunity/easy-check": "^3.2.0",
 		"@techmmunity/eslint-config": "^2.0.0",
 		"@types/jest": "^26.0.5",
